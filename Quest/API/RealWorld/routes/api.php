@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +24,16 @@ Route::group([
   Route::group([
     'middleware' => 'jwt.auth',
   ], function () {
+    // Authentication
     Route::get('/user', [AuthController::class, 'currentUser']);
     Route::put('/user', [AuthController::class, 'update']);
     Route::delete('/users/logout', [AuthController::class, 'logout']);
+
+    // Article
+    Route::get('/articles', [ArticleController::class, 'list']);
+    Route::get('/articles/{slug}', [ArticleController::class, 'index']);
+    Route::post('/articles', [ArticleController::class, 'create']);
+    Route::put('/articles/{slug}', [ArticleController::class, 'update']);
+    Route::delete('/articles/{slug}', [ArticleController::class, 'delete']);
   });
 });

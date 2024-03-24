@@ -15,11 +15,22 @@ use App\Http\Controllers\ArticleController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+  return $request->user();
+});
+
 Route::group([
   'middleware' => 'api',
 ], function () {
   Route::post('/users', [AuthController::class, 'register']);
   Route::post('/users/login', [AuthController::class, 'login']);
+
+  // 本来は認証してからだが今回は飛ばす
+  Route::get('/articles', [ArticleController::class, 'list']);
+  Route::get('/articles/{slug}', [ArticleController::class, 'index']);
+  Route::post('/articles', [ArticleController::class, 'create']);
+  Route::put('/articles/{slug}', [ArticleController::class, 'update']);
+  Route::delete('/articles/{slug}', [ArticleController::class, 'delete']);
 
   Route::group([
     'middleware' => 'jwt.auth',
@@ -30,10 +41,10 @@ Route::group([
     Route::delete('/users/logout', [AuthController::class, 'logout']);
 
     // Article
-    Route::get('/articles', [ArticleController::class, 'list']);
-    Route::get('/articles/{slug}', [ArticleController::class, 'index']);
-    Route::post('/articles', [ArticleController::class, 'create']);
-    Route::put('/articles/{slug}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{slug}', [ArticleController::class, 'delete']);
+    // Route::get('/articles', [ArticleController::class, 'list']);
+    // Route::get('/articles/{slug}', [ArticleController::class, 'index']);
+    // Route::post('/articles', [ArticleController::class, 'create']);
+    // Route::put('/articles/{slug}', [ArticleController::class, 'update']);
+    // Route::delete('/articles/{slug}', [ArticleController::class, 'delete']);
   });
 });

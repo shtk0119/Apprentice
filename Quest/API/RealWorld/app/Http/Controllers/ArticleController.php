@@ -46,9 +46,9 @@ class ArticleController extends Controller
     {
         $validated = $request->validated();
         $tags = Arr::pull($validated, 'tagList');
-        
+
         if (isset($validated['title'])) {
-            $validated['slug'] = Str::slug($validated['title'], '-');        
+            $validated['slug'] = Str::slug($validated['title'], '-');
         }
 
         $article = Article::where('slug', $slug)->firstOrFail();
